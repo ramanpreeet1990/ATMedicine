@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="/home/raman/Raman_Work/UB_Workspace_2/ATMedicine/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/libs/internal_impl-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="aa92916125166649d8ad4ba3940c3dd7515596d3">
+        <dex dex="/home/raman/Raman_Work/UB_Workspace_2/ATMedicine/app/build/intermediates/pre-dexed/debug/internal_impl-23.0.1-b338ea07db495d5c1c2eebaa206b78fe22022252.jar" />
+    </item>
+    <item
+        jar="/home/raman/Android/Sdk/extras/android/m2repository/com/android/support/support-annotations/23.0.1/support-annotations-23.0.1.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="1fce89a6428c51467090d7f424e4c9c3dbd55f7e">
+        <dex dex="/home/raman/Raman_Work/UB_Workspace_2/ATMedicine/app/build/intermediates/pre-dexed/debug/support-annotations-23.0.1-0c511c2292589d01e7ab3c00310ce99f4c8b4323.jar" />
+    </item>
+    <item
+        jar="/home/raman/Raman_Work/UB_Workspace_2/ATMedicine/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="d86429b0f0b3f3cafbeb78dda1b9d89119ccb05d">
+        <dex dex="/home/raman/Raman_Work/UB_Workspace_2/ATMedicine/app/build/intermediates/pre-dexed/debug/classes-d96958a19b1d6f90e4448b5c5442b3b96fe6e2bc.jar" />
+    </item>
+    <item
+        jar="/home/raman/Raman_Work/UB_Workspace_2/ATMedicine/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-base/7.8.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="c0c912d58c9468b1f9d9769c8975afdf2c85d681">
+        <dex dex="/home/raman/Raman_Work/UB_Workspace_2/ATMedicine/app/build/intermediates/pre-dexed/debug/classes-3fb0f86de36f92089b9e38bf4fc5f238b6ddb384.jar" />
+    </item>
+    <item
+        jar="/home/raman/Raman_Work/UB_Workspace_2/ATMedicine/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="c31e21b53ff2f74664e498248d01453a32e32d48">
+        <dex dex="/home/raman/Raman_Work/UB_Workspace_2/ATMedicine/app/build/intermediates/pre-dexed/debug/classes-b506edaa848c354830d18d5a0a3e7515bb614d7d.jar" />
+    </item>
+    <item
+        jar="/home/raman/Raman_Work/UB_Workspace_2/ATMedicine/app/build/intermediates/exploded-aar/com.google.android.gms/play-services-identity/7.8.0/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="d11330ea68c0d964d30d5caed1f27e6b1488b189">
+        <dex dex="/home/raman/Raman_Work/UB_Workspace_2/ATMedicine/app/build/intermediates/pre-dexed/debug/classes-7998e6b0db7f4c6251c8411ddb1151bd3d473afd.jar" />
+    </item>
+    <item
+        jar="/home/raman/Raman_Work/UB_Workspace_2/ATMedicine/app/build/intermediates/exploded-aar/com.android.support/design/23.0.1/jars/classes.jar"
+        jumboMode="false"
+        revision="23.0.0"
+        sha1="e5c61a3169221a89654ffcaaed47bba51cf071ad">
+        <dex dex="/home/raman/Raman_Work/UB_Workspace_2/ATMedicine/app/build/intermediates/pre-dexed/debug/classes-804a1a151a23edd0bac2970803aac8a74a71118b.jar" />
+    </item>
+
+</items>
