@@ -9,7 +9,3 @@
 4. The application in addition to above should also help an individual keep track of his/her diet by recommending diet plans on the basis of his/her BMI( Body Mass Index).
 
 5. In case of an emergency the application should also locate healthcare centres closest to user’s location covered under his/her health insurance.
-# AnyTimeMedicine
-# AnyTimeMedicine
-
-# ATMedicine
