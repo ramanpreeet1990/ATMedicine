@@ -1,5 +1,9 @@
 package buffalo.suny.software.atmedicine.activities;
 
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -11,6 +15,8 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import buffalo.suny.software.atmedicine.R;
 import buffalo.suny.software.atmedicine.fragments.FindRemedyFragment;
@@ -18,12 +24,16 @@ import buffalo.suny.software.atmedicine.fragments.GetDietPlanFragment;
 import buffalo.suny.software.atmedicine.fragments.HomeFragment;
 import buffalo.suny.software.atmedicine.fragments.LocateHealthcareCentreFragment;
 import buffalo.suny.software.atmedicine.fragments.SettingsFragment;
+import buffalo.suny.software.atmedicine.utility.Globals;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar mToolbar;
     private NavigationView navigationDrawerView;
+    private TextView navDrawerUserEmail;
     private ActionBarDrawerToggle drawerToggle;
+    private String currentUserEmailId;
+    private ProgressDialog ringProgressDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Setup drawer view
         navigationDrawerView = (NavigationView) findViewById(R.id.navigationView);
+        navDrawerUserEmail = (TextView) navigationDrawerView.findViewById(R.id.nav_drawer_user_email);
         setupDrawerContent(navigationDrawerView);
 
         // Find our drawer view
@@ -44,10 +55,31 @@ public class MainActivity extends AppCompatActivity {
 
         // Tie DrawerLayout events to the ActionBarToggle
         drawerLayout.setDrawerListener(drawerToggle);
+        drawerLayout.openDrawer(GravityCompat.START);
+
+        setUserSession(true);
     }
 
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
+    }
+
+    public void showToast(String msg, int time) {
+        Toast.makeText(this, msg, time).show();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+    }
+
+    private void setUserSession(Boolean session) {
+        SharedPreferences prefs = this.getSharedPreferences(Globals.ATM_PREF, getApplicationContext().MODE_PRIVATE);
+        SharedPreferences.Editor editor = prefs.edit();
+        editor.putBoolean(Globals.IS_LOGGED_IN, session);
+        editor.putString(Globals.CURRENT_USER_EMAIL_ID, currentUserEmailId);
+        editor.commit();
     }
 
     @Override
@@ -68,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void setupDrawerContent(NavigationView navigationView) {
+
         navigationView.setNavigationItemSelectedListener(
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
@@ -76,6 +109,9 @@ public class MainActivity extends AppCompatActivity {
                         return true;
                     }
                 });
+
+        currentUserEmailId = getIntent().getStringExtra(Globals.CURRENT_USER_EMAIL_ID);
+        navDrawerUserEmail.setText(currentUserEmailId);
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
@@ -98,24 +134,46 @@ public class MainActivity extends AppCompatActivity {
             case R.id.nav_settings_fragment:
                 fragmentClass = SettingsFragment.class;
                 break;
+            case R.id.nav_logout_fragment:
+                fragmentClass = null;
+                sessionLogout();
+                break;
             default:
                 fragmentClass = HomeFragment.class;
         }
 
-        try {
-            fragment = (Fragment) fragmentClass.newInstance();
-        } catch (Exception e) {
-            e.printStackTrace();
+        if (null != fragmentClass) {
+            try {
+                fragment = (Fragment) fragmentClass.newInstance();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            // Insert the fragment by replacing any existing fragment
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+
+            // Highlight the selected item, update the title, and close the drawer
+            menuItem.setChecked(true);
+            setTitle(menuItem.getTitle());
+            drawerLayout.closeDrawers();
         }
+    }
 
-        // Insert the fragment by replacing any existing fragment
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+    private void sessionLogout() {
+        setUserSession(false);
 
-        // Highlight the selected item, update the title, and close the drawer
-        menuItem.setChecked(true);
-        setTitle(menuItem.getTitle());
-        drawerLayout.closeDrawers();
+        launchRingDialog("Logging out...");
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+                        dismissProgressDialog();
+                        Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
+                        startActivity(intent);
+                        finish();
+
+                    }
+                }, 3000);
     }
 
     @Override
@@ -123,6 +181,26 @@ public class MainActivity extends AppCompatActivity {
         super.onPostCreate(savedInstanceState);
         // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState();
+    }
+
+    private void launchRingDialog(String displayMessage) {
+        ringProgressDialog = ProgressDialog.show(this, "Please wait ...", displayMessage, true);
+        ringProgressDialog.setIndeterminate(true);
+        ringProgressDialog.setCancelable(false);
+    }
+
+    public void dismissProgressDialog() {
+        if (ringProgressDialog != null && ringProgressDialog.isShowing()) {
+            ringProgressDialog.dismiss();
+        }
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        //prevent window leak exception
+        dismissProgressDialog();
     }
 
     @Override

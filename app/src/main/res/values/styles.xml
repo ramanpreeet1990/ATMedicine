@@ -10,7 +10,13 @@
         <!--   theme UI controls like checkboxes and text fields -->
         <item name="colorAccent">@color/accent</item>
         <!--<item name="android:statusBarColor">@android:color/transparent</item>-->
-        <item name="android:windowTranslucentStatus">true</item>
+ <!--       <item name="android:windowTranslucentStatus">true</item>
+ -->
+
+        <item name="colorControlActivated">@color/white</item>
+        <item name="colorControlHighlight">@color/white</item>
+        <item name="android:textColorHint">@color/hint_text</item>
     </style>
+
 
 </resources>
