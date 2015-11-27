@@ -5,19 +5,20 @@ import android.accounts.AccountManager;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.text.Editable;
-import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -26,35 +27,43 @@ import android.widget.Toast;
 import com.google.android.gms.auth.GoogleAuthUtil;
 
 import buffalo.suny.software.atmedicine.R;
+import buffalo.suny.software.atmedicine.database.DatabaseConnection;
 import buffalo.suny.software.atmedicine.utility.Globals;
 import buffalo.suny.software.atmedicine.utility.Utility;
 
-public class ForgotPasswordActivity extends AppCompatActivity {
-    private EditText txtInputEmail;
-    private TextInputLayout inputLayoutEmail;
-    private Button btnResetPassword;
-    private Utility utility;
-    private ProgressDialog ringProgressDialog;
+public class ForgotPasswordActivity extends AppCompatActivity implements View.OnClickListener {
     private Typeface customTypeface, customBold;
-    private TextView txtLogoForgotPassword1, txtLogoForgotPassword2, linkCreateAccount;
+
+    private TextInputLayout inputLayoutEmail;
+    private EditText txtInputEmail;
+    private Button btnResetPassword;
+
+    private String userEmailId = "";
+
+    private DatabaseConnection dbConn;
+    private Resources res;
+
+    private ProgressDialog ringProgressDialog;
+    private TextView txtLogoForgotPasswordTitle, txtLogoForgotPasswordSubtitle, linkCreateAccount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
-        utility = new Utility();
+
+        dbConn = DatabaseConnection.getInstance();
+        res = getResources();
 
         customTypeface = Typeface.createFromAsset(getAssets(), Globals.FONT_ROBOTO_THIN);
         customBold = Typeface.create(customTypeface, Typeface.BOLD);
 
-        txtLogoForgotPassword1 = (TextView) findViewById(R.id.txt_logo_forgot_password_1);
-        txtLogoForgotPassword1.setTypeface(customBold);
+        txtLogoForgotPasswordTitle = (TextView) findViewById(R.id.txt_logo_forgot_password_title);
+        txtLogoForgotPasswordTitle.setTypeface(customBold);
 
-        txtLogoForgotPassword2 = (TextView) findViewById(R.id.txt_logo_forgot_password_2);
-        txtLogoForgotPassword2.setTypeface(customTypeface);
+        txtLogoForgotPasswordSubtitle = (TextView) findViewById(R.id.txt_logo_forgot_password_subtitle);
+        txtLogoForgotPasswordSubtitle.setTypeface(customTypeface);
 
         inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_email);
-
         txtInputEmail = (EditText) findViewById(R.id.txt_input_email);
         txtInputEmail.setTypeface(customTypeface);
 
@@ -67,61 +76,97 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         super.onResume();
 
         txtInputEmail.setText(getAccount());
-        txtInputEmail.addTextChangedListener(new LoginFormTextWatcher(txtInputEmail));
+        txtInputEmail.addTextChangedListener(new ResetPasswordTextWatcher(txtInputEmail));
 
-        btnResetPassword.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        btnResetPassword.setOnClickListener(this);
+        linkCreateAccount.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.btn_reset_password:
                 submitForgotPasswordForm();
-            }
-        });
+                break;
 
-        linkCreateAccount.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View v) {
+            case R.id.link_create_account:
                 Intent intent = new Intent(getApplicationContext(), CreateAccountActivity.class);
                 startActivity(intent);
                 finish();
-            }
-        });
+                break;
 
+        }
     }
 
     private void submitForgotPasswordForm() {
-        if (!validateEmail()) {
+        if (!validateEmail(userEmailId)) {
             return;
         }
 
-        if (utility.isNetworkAvailable(this)) {
-            launchRingDialog("Sending new password...");
-
-            new android.os.Handler().postDelayed(
-                    new Runnable() {
-                        public void run() {
-                            showToast("A new password has been sent to your registered email id",Toast.LENGTH_SHORT);
-                            dismissProgressDialog();
-                            finish();
-                        }
-                    }, 3000);
-        } else {
-            showErrorDialog("Connection Error", "Can't connect to the network. Please check your internet connection");
+        if (!Utility.isNetworkAvailable(this)) {
+            errorDialog(res.getString(R.string.connection_error_title), res.getString(R.string.connection_error_msg));
+            return;
         }
+
+        hideSoftKeyboard();
+        runResetPasswordTask();
+    }
+
+    private Boolean success = false;
+
+    private void runResetPasswordTask() {
+        AsyncTask<String, Boolean, Boolean> mResetPasswordTask;
+        mResetPasswordTask = new AsyncTask<String, Boolean, Boolean>() {
+            @Override
+            protected void onPreExecute() {
+                launchRingDialog("Sending new password...");
+            }
+
+            @Override
+            protected Boolean doInBackground(String... params) {
+                try {
+                    success = dbConn.resetPassword(userEmailId);
+                } catch (Exception e) {
+                    success = false;
+                    e.printStackTrace();
+                }
+
+                return success;
+            }
+
+            @Override
+            protected void onPostExecute(Boolean success) {
+                super.onPostExecute(success);
+                dismissProgressDialog();
+                if (success) {
+                    showToast(res.getString(R.string.reset_password_success), Toast.LENGTH_SHORT);
+                    dismissProgressDialog();
+                    finish();
+                }
+            }
+
+            @Override
+            protected void onCancelled() {
+                dismissProgressDialog();
+
+            }
+        };
+        mResetPasswordTask.execute();
     }
 
     private void showToast(String msg, int time) {
         Toast.makeText(this, msg, time).show();
     }
 
-    private void showErrorDialog(String title, String msg) {
+    private void errorDialog(String title, String msg) {
         final Dialog errorDialog = new Dialog(this);
         errorDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         errorDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
-        errorDialog.setContentView(R.layout.error_dialog);
+        errorDialog.setContentView(R.layout.dialog_error);
         errorDialog.setCancelable(false);
         errorDialog.show();
 
-        Button btnOK = (Button) errorDialog.findViewById(R.id.btnOK);
+        Button btnOK = (Button) errorDialog.findViewById(R.id.btn_close);
         TextView dialogTitle = (TextView) errorDialog.findViewById(R.id.dialog_toolbar_title);
         TextView dialogMessage = (TextView) errorDialog.findViewById(R.id.dialog_msg);
 
@@ -139,10 +184,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         );
     }
 
-    private boolean validateEmail() {
-        String email = txtInputEmail.getText().toString().trim();
-
-        if (email.isEmpty() || !isValidEmail(email)) {
+    private boolean validateEmail(String userEmailId) {
+        if (userEmailId.isEmpty() || !Utility.isValidEmail(userEmailId)) {
             inputLayoutEmail.setError(getString(R.string.err_msg_email));
             requestFocus(txtInputEmail);
             return false;
@@ -153,21 +196,16 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         return true;
     }
 
-
-    private static boolean isValidEmail(String email) {
-        return !TextUtils.isEmpty(email) && android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches();
-    }
-
     private void requestFocus(View view) {
         if (view.requestFocus()) {
             getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
         }
     }
 
-    private class LoginFormTextWatcher implements TextWatcher {
+    private class ResetPasswordTextWatcher implements TextWatcher {
         private View view;
 
-        private LoginFormTextWatcher(View view) {
+        private ResetPasswordTextWatcher(View view) {
             this.view = view;
         }
 
@@ -180,7 +218,8 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         public void afterTextChanged(Editable editable) {
             switch (view.getId()) {
                 case R.id.txt_input_email:
-                    validateEmail();
+                    userEmailId = txtInputEmail.getText().toString().trim();
+                    validateEmail(userEmailId);
                     break;
             }
         }
@@ -213,6 +252,14 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         }
     }
 
+
+    public void hideSoftKeyboard() {
+        if (getCurrentFocus() != null) {
+            InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
+        }
+    }
+
     @Override
     protected void onPause() {
         super.onPause();
@@ -220,6 +267,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         //prevent window leak exception
         dismissProgressDialog();
     }
+
 
     @Override
     protected void onDestroy() {

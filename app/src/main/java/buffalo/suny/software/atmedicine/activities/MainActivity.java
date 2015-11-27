@@ -1,7 +1,6 @@
 package buffalo.suny.software.atmedicine.activities;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -16,23 +15,27 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import buffalo.suny.software.atmedicine.R;
+import buffalo.suny.software.atmedicine.database.DatabaseConnection;
 import buffalo.suny.software.atmedicine.fragments.FindRemedyFragment;
 import buffalo.suny.software.atmedicine.fragments.GetDietPlanFragment;
 import buffalo.suny.software.atmedicine.fragments.HomeFragment;
 import buffalo.suny.software.atmedicine.fragments.LocateHealthcareCentreFragment;
 import buffalo.suny.software.atmedicine.fragments.SettingsFragment;
+import buffalo.suny.software.atmedicine.model.User;
 import buffalo.suny.software.atmedicine.utility.Globals;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private Toolbar mToolbar;
     private NavigationView navigationDrawerView;
-    private TextView navDrawerUserEmail;
     private ActionBarDrawerToggle drawerToggle;
-    private String currentUserEmailId;
+    private TextView navDrawerUserEmail;
+
+    private User user;
+    private DatabaseConnection dbConn;
+
     private ProgressDialog ringProgressDialog;
 
     @Override
@@ -40,20 +43,19 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        // Set a Toolbar to replace the ActionBar.
+        user = User.getCurrentUser();
+        dbConn = DatabaseConnection.getInstance();
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        // Setup drawer view
-        navigationDrawerView = (NavigationView) findViewById(R.id.navigationView);
+        navigationDrawerView = (NavigationView) findViewById(R.id.navigation_view_atm);
         navDrawerUserEmail = (TextView) navigationDrawerView.findViewById(R.id.nav_drawer_user_email);
         setupDrawerContent(navigationDrawerView);
 
-        // Find our drawer view
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawerToggle = setupDrawerToggle();
 
-        // Tie DrawerLayout events to the ActionBarToggle
         drawerLayout.setDrawerListener(drawerToggle);
         drawerLayout.openDrawer(GravityCompat.START);
 
@@ -62,10 +64,6 @@ public class MainActivity extends AppCompatActivity {
 
     private ActionBarDrawerToggle setupDrawerToggle() {
         return new ActionBarDrawerToggle(this, drawerLayout, mToolbar, R.string.drawer_open, R.string.drawer_close);
-    }
-
-    public void showToast(String msg, int time) {
-        Toast.makeText(this, msg, time).show();
     }
 
     @Override
@@ -78,7 +76,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences prefs = this.getSharedPreferences(Globals.ATM_PREF, getApplicationContext().MODE_PRIVATE);
         SharedPreferences.Editor editor = prefs.edit();
         editor.putBoolean(Globals.IS_LOGGED_IN, session);
-        editor.putString(Globals.CURRENT_USER_EMAIL_ID, currentUserEmailId);
+        editor.putString(Globals.CURRENT_USER_EMAIL_ID, user.getEmailId());
         editor.commit();
     }
 
@@ -88,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
             return true;
         }
 
-        // The action bar home/up action should open or close the drawer.
         switch (item.getItemId()) {
             case android.R.id.home:
                 drawerLayout.openDrawer(GravityCompat.START);
@@ -110,8 +107,11 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        currentUserEmailId = getIntent().getStringExtra(Globals.CURRENT_USER_EMAIL_ID);
-        navDrawerUserEmail.setText(currentUserEmailId);
+        String txt = user.getFirstName();
+        if (null != txt)
+            navDrawerUserEmail.setText("Welcome " + txt);
+        else
+            navDrawerUserEmail.setText(user.getEmailId());
     }
 
     public void selectDrawerItem(MenuItem menuItem) {
@@ -149,11 +149,9 @@ public class MainActivity extends AppCompatActivity {
                 e.printStackTrace();
             }
 
-            // Insert the fragment by replacing any existing fragment
             FragmentManager fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.flContent, fragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.fragment_atm, fragment).commit();
 
-            // Highlight the selected item, update the title, and close the drawer
             menuItem.setChecked(true);
             setTitle(menuItem.getTitle());
             drawerLayout.closeDrawers();
@@ -167,6 +165,7 @@ public class MainActivity extends AppCompatActivity {
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
+                        dbConn.closeConnection();
                         dismissProgressDialog();
                         Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                         startActivity(intent);
@@ -179,7 +178,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onPostCreate(Bundle savedInstanceState) {
         super.onPostCreate(savedInstanceState);
-        // Sync the toggle state after onRestoreInstanceState has occurred.
         drawerToggle.syncState();
     }
 
@@ -206,7 +204,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        // Pass any configuration change to the drawer toggles
         drawerToggle.onConfigurationChanged(newConfig);
     }
 

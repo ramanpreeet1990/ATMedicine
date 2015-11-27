@@ -5,33 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <!-- This LinearLayout represents the contents of the screen  -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!-- The ActionBar displayed at the top -->
         <include
-            layout="@layout/app_toolbar"
+            layout="@layout/atm_toolbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
 
-        <!-- The main content view where fragments are loaded -->
         <FrameLayout
-            android:id="@+id/flContent"
+            android:id="@+id/fragment_atm"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>
 
-    <!-- The navigation drawer that comes from the left -->
-    <!-- Note that `android:layout_gravity` needs to be set to 'start' -->
     <android.support.design.widget.NavigationView
-        android:id="@+id/navigationView"
+        android:id="@+id/navigation_view_atm"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
         android:layout_gravity="start"
         android:background="@android:color/white"
         app:headerLayout="@layout/navigation_header"
-        app:menu="@menu/drawer_view" />
+        app:menu="@menu/drawer_view_atm" />
 </android.support.v4.widget.DrawerLayout>
