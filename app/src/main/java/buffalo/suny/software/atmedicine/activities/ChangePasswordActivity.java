@@ -25,7 +25,6 @@ import buffalo.suny.software.atmedicine.model.User;
 import buffalo.suny.software.atmedicine.utility.Globals;
 import buffalo.suny.software.atmedicine.utility.Utility;
 
-
 public class ChangePasswordActivity extends AppCompatActivity implements View.OnClickListener {
     private Typeface customTypeface, customBold;
 
@@ -34,7 +33,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     private EditText txtInputCurrentPassword, txtInputNewPassword, txtInputConfirmPassword;
     private Button btnUpdatePassword;
 
-    private String currentPassword = "", newPassword = "", confirmPassword = "";
+    private String currentPassword, newPassword, confirmPassword;
 
     private User user;
     private DatabaseConnection dbConn;
@@ -87,6 +86,9 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_update:
+                currentPassword = txtInputCurrentPassword.getText().toString().trim();
+                newPassword = txtInputNewPassword.getText().toString().trim();
+                confirmPassword = txtInputConfirmPassword.getText().toString().trim();
 
                 if (!validateCurrentPassword(currentPassword)) {
                     return;
@@ -134,7 +136,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
             @Override
             protected Boolean doInBackground(String... params) {
                 try {
-                    success = dbConn.updatePassword(user.getEmailId(), currentPassword);
+                    success = true;//dbConn.updatePassword(user.getEmailId(), currentPassword);
                 } catch (Exception e) {
                     success = false;
                     e.printStackTrace();
@@ -240,7 +242,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     }
 
     private boolean validateCurrentPassword(String currentPassword) {
-        if (currentPassword.isEmpty()) {
+        if (null == currentPassword || currentPassword.isEmpty()) {
             inputLayoutCurrentPassword.setError(getString(R.string.err_msg_password));
             showSoftKeyboard(txtInputCurrentPassword);
             return false;
@@ -253,7 +255,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     }
 
     private boolean validateNewPassword(String newPassword) {
-        if (newPassword.isEmpty()) {
+        if (null == newPassword || newPassword.isEmpty()) {
             inputLayoutNewPassword.setError(getString(R.string.err_msg_password));
             showSoftKeyboard(txtInputNewPassword);
             return false;
@@ -266,7 +268,7 @@ public class ChangePasswordActivity extends AppCompatActivity implements View.On
     }
 
     private boolean validateConfirmPassword(String confirmPassword) {
-        if (confirmPassword.isEmpty()) {
+        if (null == confirmPassword || confirmPassword.isEmpty()) {
             inputLayoutConfirmPassword.setError(getString(R.string.err_msg_password));
             showSoftKeyboard(txtInputConfirmPassword);
             return false;

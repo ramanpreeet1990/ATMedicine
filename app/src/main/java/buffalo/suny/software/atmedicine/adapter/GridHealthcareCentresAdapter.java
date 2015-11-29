@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 import buffalo.suny.software.atmedicine.model.HealthcareCentre;
@@ -22,8 +23,6 @@ import buffalo.suny.software.atmedicine.R;
  ********************************************************************************************************************************/
 public class GridHealthcareCentresAdapter extends RecyclerView.Adapter<GridHealthcareCentresAdapter.ViewHolder> {
     private HealthcareCentre[] mHealthcareCentre;
-    private AsyncTask<String, Void, Bitmap> mAsyncTask;
-    private ArrayList<String> asinIds = new ArrayList<String>();
 
     public GridHealthcareCentresAdapter(HealthcareCentre[] mHealthcareCentre) {
         super();
@@ -44,9 +43,15 @@ public class GridHealthcareCentresAdapter extends RecyclerView.Adapter<GridHealt
 
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
+        DecimalFormat distanceFormatter = new DecimalFormat();
+        distanceFormatter.setMinimumFractionDigits(2);
+        distanceFormatter.setMaximumFractionDigits(2);
+
         viewHolder.txtName.setText(mHealthcareCentre[i].getName());
         viewHolder.txtAddress.setText(mHealthcareCentre[i].getAddress());
-        viewHolder.txtPhoneNumber.setText(mHealthcareCentre[i].getPhoneNumber());
+        viewHolder.txtPhoneNumber.setText("Ph: "+mHealthcareCentre[i].getPhoneNumber());
+        viewHolder.txtEmail.setText(mHealthcareCentre[i].getEmailId());
+        viewHolder.txtDistanceFromUser.setText(distanceFormatter.format(mHealthcareCentre[i].getDistanceFromUser())+" km");
     }
 
 
@@ -68,7 +73,7 @@ public class GridHealthcareCentresAdapter extends RecyclerView.Adapter<GridHealt
     }
 
     class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
-        private TextView txtName, txtAddress, txtPhoneNumber;
+        private TextView txtName, txtAddress, txtPhoneNumber, txtEmail, txtDistanceFromUser;
         private ImageView imgDrivingDirection;
 
         public ViewHolder(final View itemView) {
@@ -77,6 +82,8 @@ public class GridHealthcareCentresAdapter extends RecyclerView.Adapter<GridHealt
             this.txtName = (TextView) itemView.findViewById(R.id.txt_name);
             this.txtAddress = (TextView) itemView.findViewById(R.id.txt_address);
             this.txtPhoneNumber = (TextView) itemView.findViewById(R.id.txt_phone);
+            this.txtEmail = (TextView) itemView.findViewById(R.id.txt_email);
+            this.txtDistanceFromUser = (TextView) itemView.findViewById(R.id.txt_distance);
             this.imgDrivingDirection = (ImageView) itemView.findViewById(R.id.img_driving_direction);
 
             imgDrivingDirection.setOnClickListener(this);

@@ -15,6 +15,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,6 +26,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.auth.GoogleAuthUtil;
+
+import java.security.MessageDigest;
 
 import buffalo.suny.software.atmedicine.R;
 import buffalo.suny.software.atmedicine.database.DatabaseConnection;
@@ -40,7 +43,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     private EditText txtInputEmail, txtInputPassword, txtInputConfirmPassword;
     private Button btnCreateAccount;
 
-    private String newUserEmailId = "", newUserPassword = "", newUserConfirmPassword = "";
+    private String newUserEmailId, newUserPassword, newUserConfirmPassword;
 
     private User user;
     private DatabaseConnection dbConn;
@@ -53,7 +56,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
 
-        dbConn = DatabaseConnection.getInstance();
         res = getResources();
 
         customTypeface = Typeface.createFromAsset(getAssets(), Globals.FONT_ROBOTO_THIN);
@@ -66,17 +68,16 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         txtLogoCreateAccountSubtitle.setTypeface(customTypeface);
 
         inputLayoutEmail = (TextInputLayout) findViewById(R.id.input_layout_email);
+        txtInputEmail = (EditText) findViewById(R.id.txt_input_email);
         txtInputEmail.setTypeface(customTypeface);
 
         inputLayoutPassword = (TextInputLayout) findViewById(R.id.input_layout_password);
+        txtInputPassword = (EditText) findViewById(R.id.txt_input_password);
         txtInputPassword.setTypeface(customTypeface);
 
         inputLayoutConfirmPassword = (TextInputLayout) findViewById(R.id.input_layout_confirm_password);
-        txtInputConfirmPassword.setTypeface(customTypeface);
-
-        txtInputEmail = (EditText) findViewById(R.id.txt_input_email);
-        txtInputPassword = (EditText) findViewById(R.id.txt_input_password);
         txtInputConfirmPassword = (EditText) findViewById(R.id.txt_input_confirm_password);
+        txtInputConfirmPassword.setTypeface(customTypeface);
 
         btnCreateAccount = (Button) findViewById(R.id.btn_create_account);
         linkLogin = (TextView) findViewById(R.id.link_login);
@@ -109,6 +110,10 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private void submitCreateAccountForm() {
+        newUserEmailId = txtInputEmail.getText().toString().trim();
+        newUserPassword = txtInputPassword.getText().toString().trim();
+        newUserConfirmPassword = txtInputConfirmPassword.getText().toString().trim();
+
         if (!validateEmail(newUserEmailId)) {
             return;
         }
@@ -132,7 +137,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         }
 
         if (!Utility.passwordMatches(newUserPassword, newUserConfirmPassword)) {
-            showErrorDialog(res.getString(R.string.password_unmatch_title), res.getString(R.string.password_criteria_unmatch_subtitle));
+            showErrorDialog(res.getString(R.string.password_unmatch_title), res.getString(R.string.password_unmatch_subtitle));
             return;
         }
 
@@ -140,37 +145,47 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         runCreateAccountTask();
     }
 
-    private Boolean success = false;
+    private int result = -1;
+    private int uniqueUserId = -1;
 
     private void runCreateAccountTask() {
-        AsyncTask<String, Boolean, Boolean> mCreateAccountTask;
-        mCreateAccountTask = new AsyncTask<String, Boolean, Boolean>() {
+        AsyncTask<String, Integer, Integer> mCreateAccountTask;
+        mCreateAccountTask = new AsyncTask<String, Integer, Integer>() {
             @Override
             protected void onPreExecute() {
+                dbConn = DatabaseConnection.getInstance();
                 launchRingDialog("Creating Account...");
             }
 
             @Override
-            protected Boolean doInBackground(String... params) {
+            protected Integer doInBackground(String... params) {
                 try {
-                    success = dbConn.registerUser(newUserEmailId, newUserPassword);
+                    result = dbConn.registerUser(newUserEmailId, Utility.generateMD5(newUserPassword));
+                    uniqueUserId = dbConn.isRegisteredUser(newUserEmailId, Utility.generateMD5(newUserPassword));
                 } catch (Exception e) {
-                    success = false;
                     e.printStackTrace();
                 }
 
-                return success;
+                return uniqueUserId;
             }
 
             @Override
-            protected void onPostExecute(Boolean success) {
-                super.onPostExecute(success);
+            protected void onPostExecute(Integer uniqueUserId) {
+                super.onPostExecute(uniqueUserId);
                 dismissProgressDialog();
-                if (success) {
+
+                Log.v(Globals.TAG, "result : " + result + ", uniqueUserId : " + uniqueUserId);
+                if (result == 1 && uniqueUserId >= 0 ) {
                     showToast(res.getString(R.string.success_registration), Toast.LENGTH_SHORT);
                     user = User.getCurrentUser();
                     user.setEmailId(newUserEmailId);
+                    user.setUserId(uniqueUserId);
+
                     startApp();
+                } else if(result == 0) {
+                    showToast(res.getString(R.string.user_already_registered), Toast.LENGTH_SHORT);
+                } else {
+                    showToast(res.getString(R.string.connection_error_msg), Toast.LENGTH_SHORT);
                 }
             }
 
@@ -195,7 +210,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         errorDialog.setCancelable(false);
         errorDialog.show();
 
-        Button btnOK = (Button) errorDialog.findViewById(R.id.btn_close);
+        Button btnOK = (Button) errorDialog.findViewById(R.id.btn_ok);
         TextView dialogTitle = (TextView) errorDialog.findViewById(R.id.dialog_toolbar_title);
         TextView dialogMessage = (TextView) errorDialog.findViewById(R.id.dialog_msg);
 
@@ -214,9 +229,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private boolean validateEmail(String newUserEmailId) {
-        if (newUserEmailId.isEmpty() || !Utility.isValidEmail(newUserEmailId)) {
+        if (null == newUserEmailId || newUserEmailId.isEmpty() || !Utility.isValidEmail(newUserEmailId)) {
             inputLayoutEmail.setError(getString(R.string.err_msg_email));
-            requestFocus(txtInputEmail);
+            showSoftKeyboard(txtInputEmail);
             return false;
         } else {
             inputLayoutEmail.setErrorEnabled(false);
@@ -226,9 +241,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private boolean validatePassword(String newUserPassword) {
-        if (newUserPassword.isEmpty()) {
+        if (null == newUserPassword || newUserPassword.isEmpty()) {
             inputLayoutPassword.setError(getString(R.string.err_msg_password));
-            requestFocus(txtInputPassword);
+            showSoftKeyboard(txtInputPassword);
             return false;
         } else {
             inputLayoutPassword.setErrorEnabled(false);
@@ -238,9 +253,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private boolean validateConfirmPassword(String newUserConfirmPassword) {
-        if (newUserConfirmPassword.isEmpty()) {
+        if (null == newUserConfirmPassword || newUserConfirmPassword.isEmpty()) {
             inputLayoutConfirmPassword.setError(getString(R.string.err_msg_password));
-            requestFocus(txtInputConfirmPassword);
+            showSoftKeyboard(txtInputConfirmPassword);
             return false;
         } else {
             inputLayoutConfirmPassword.setErrorEnabled(false);
@@ -248,14 +263,6 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
         return true;
     }
-
-
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
-    }
-
 
     private class LoginFormTextWatcher implements TextWatcher {
         private View view;
@@ -330,6 +337,12 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
+    }
+
+    public void showSoftKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        view.requestFocus();
+        inputMethodManager.showSoftInput(view, 0);
     }
 
     @Override

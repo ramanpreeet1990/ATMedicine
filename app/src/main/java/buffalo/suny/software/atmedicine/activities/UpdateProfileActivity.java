@@ -49,7 +49,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     private NumberPicker pickerHeightFeet, pickerHeightInch, pickerWeight;
 
     private List<String> insuranceProviders;
-    private String insuranceProvider, lastName = "", firstName = "", phoneNumber = "", userPassword = "";
+    private String insuranceProvider, lastName, firstName, phoneNumber, userPassword;
     private int year, month, day, heightFeet, heightInch, weightLbs;
     private boolean isDataChanged = false;
 
@@ -201,12 +201,12 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             heightFeet = Integer.parseInt(height[0]);
             heightInch = Integer.parseInt(height[1]);
         } else {
-            heightFeet = 5;
-            heightInch = 10;
+            heightFeet = Globals.DEFAULT_HEIGHT_FEET;
+            heightInch = Globals.DEFAULT_HEIGHT_INCH;
         }
 
-        pickerHeightFeet.setMinValue(3);
-        pickerHeightFeet.setMaxValue(10);
+        pickerHeightFeet.setMinValue(Globals.MIN_HEIGHT_FEET);
+        pickerHeightFeet.setMaxValue(Globals.MAX_HEIGHT_FEET);
         pickerHeightFeet.setValue(heightFeet);
         pickerHeightFeet.setWrapSelectorWheel(false);
 
@@ -220,8 +220,8 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
             }
         });
 
-        pickerHeightInch.setMinValue(0);
-        pickerHeightInch.setMaxValue(11);
+        pickerHeightInch.setMinValue(Globals.MIN_HEIGHT_INCH);
+        pickerHeightInch.setMaxValue(Globals.MAX_HEIGHT_INCH);
         pickerHeightInch.setValue(heightInch);
         pickerHeightInch.setWrapSelectorWheel(false);
 
@@ -239,11 +239,11 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     private void loadUserWeight() {
         weightLbs = user.getWeightLbs();
         if (weightLbs <= 0) {
-            weightLbs = 170;
+            weightLbs = Globals.DEFAULT_WEIGHT_LBS;
         }
 
-        pickerWeight.setMinValue(3);
-        pickerWeight.setMaxValue(1500);
+        pickerWeight.setMinValue(Globals.MIN_WEIGHT_LBS);
+        pickerWeight.setMaxValue(Globals.MAX_WEIGHT_LBS);
         pickerWeight.setValue(weightLbs);
         pickerWeight.setWrapSelectorWheel(false);
 
@@ -279,6 +279,9 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.btn_update:
+                lastName = txtInputLastName.getText().toString().trim();
+                firstName = txtInputFirstName.getText().toString().trim();
+                userPassword = txtInputConfirmPassword.getText().toString().trim();
 
                 if (!validateLastName(lastName)) {
                     return;
@@ -364,7 +367,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
         mDialog.setCancelable(false);
         mDialog.show();
 
-        Button btnOK = (Button) mDialog.findViewById(R.id.btn_close);
+        Button btnOK = (Button) mDialog.findViewById(R.id.btn_ok);
         TextView dialogTitle = (TextView) mDialog.findViewById(R.id.dialog_toolbar_title);
         TextView dialogMessage = (TextView) mDialog.findViewById(R.id.dialog_msg);
 
@@ -433,7 +436,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     }
 
     private boolean validateLastName(String lastName) {
-        if (lastName.isEmpty()) {
+        if (null == lastName || lastName.isEmpty()) {
             inputLayoutLastName.setError(getString(R.string.err_msg_last_name));
             showSoftKeyboard(txtInputLastName);
             return false;
@@ -447,7 +450,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     }
 
     private boolean validateFirstName(String firstName) {
-        if (firstName.isEmpty()) {
+        if (null == firstName || firstName.isEmpty()) {
             inputLayoutFirstName.setError(getString(R.string.err_msg_first_name));
             showSoftKeyboard(txtInputFirstName);
             return false;
@@ -460,7 +463,7 @@ public class UpdateProfileActivity extends AppCompatActivity implements View.OnC
     }
 
     private boolean validatePassword(String userPassword) {
-        if (userPassword.isEmpty()) {
+        if (null == userPassword || userPassword.isEmpty()) {
             inputLayoutConfirmPassword.setError(getString(R.string.err_msg_password));
             showSoftKeyboard(txtInputConfirmPassword);
             return false;

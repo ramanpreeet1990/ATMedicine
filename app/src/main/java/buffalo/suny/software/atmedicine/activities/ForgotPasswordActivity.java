@@ -38,7 +38,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     private EditText txtInputEmail;
     private Button btnResetPassword;
 
-    private String userEmailId = "";
+    private String userEmailId;
 
     private DatabaseConnection dbConn;
     private Resources res;
@@ -51,7 +51,6 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_forgot_password);
 
-        dbConn = DatabaseConnection.getInstance();
         res = getResources();
 
         customTypeface = Typeface.createFromAsset(getAssets(), Globals.FONT_ROBOTO_THIN);
@@ -99,6 +98,8 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     }
 
     private void submitForgotPasswordForm() {
+        userEmailId = txtInputEmail.getText().toString().trim();
+
         if (!validateEmail(userEmailId)) {
             return;
         }
@@ -119,6 +120,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
         mResetPasswordTask = new AsyncTask<String, Boolean, Boolean>() {
             @Override
             protected void onPreExecute() {
+                dbConn = DatabaseConnection.getInstance();
                 launchRingDialog("Sending new password...");
             }
 
@@ -185,7 +187,7 @@ public class ForgotPasswordActivity extends AppCompatActivity implements View.On
     }
 
     private boolean validateEmail(String userEmailId) {
-        if (userEmailId.isEmpty() || !Utility.isValidEmail(userEmailId)) {
+        if (null == userEmailId || userEmailId.isEmpty() || !Utility.isValidEmail(userEmailId)) {
             inputLayoutEmail.setError(getString(R.string.err_msg_email));
             requestFocus(txtInputEmail);
             return false;

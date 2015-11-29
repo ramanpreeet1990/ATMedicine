@@ -2,7 +2,7 @@ package buffalo.suny.software.atmedicine.model;
 
 public class User {
     private String emailId, lastName, firstName, phoneNumber, insuranceProvider, dateOfBirth, height, interpretedBMI;
-    private int weightLbs;
+    private int weightLbs, userId;
     private double latitude, longitude;
     private boolean isMale;
 
@@ -20,6 +20,10 @@ public class User {
         return user;
     }
 
+    public static void closeUser(){
+        user = null;
+    }
+
     public User(int latitude, int longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
@@ -34,6 +38,10 @@ public class User {
         this.dateOfBirth = dateOfBirth;
         this.height = height;
         this.weightLbs = weightLbs;
+    }
+
+    public int getUserId() {
+        return userId;
     }
 
     public boolean isMale() {
@@ -82,6 +90,10 @@ public class User {
 
     public String getInterpretedBMI() {
         return interpretedBMI;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
     }
 
     public void setMale(boolean isMale) {

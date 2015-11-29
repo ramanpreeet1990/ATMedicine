@@ -1,6 +1,5 @@
 package buffalo.suny.software.atmedicine.adapter;
 
-import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
 import android.support.v7.widget.RecyclerView;
@@ -41,7 +40,7 @@ public class GridMedicalHistoryAdapter extends RecyclerView.Adapter<GridMedicalH
     @Override
     public void onBindViewHolder(ViewHolder viewHolder, int i) {
         viewHolder.txtSymptom.setText(mMedicalHistory[i].getSymptom());
-        viewHolder.txtLastHappen.setText(mMedicalHistory[i].getLastHappen());
+        viewHolder.txtLastHappen.setText(mMedicalHistory[i].getBodyPart());
         viewHolder.txtDate.setText(mMedicalHistory[i].getDate());
     }
 
@@ -69,7 +68,7 @@ public class GridMedicalHistoryAdapter extends RecyclerView.Adapter<GridMedicalH
             super(itemView);
 
             this.txtSymptom = (TextView) itemView.findViewById(R.id.txt_symptom);
-            this.txtLastHappen = (TextView) itemView.findViewById(R.id.txt_last_happen);
+            this.txtLastHappen = (TextView) itemView.findViewById(R.id.txt_bodypart);
             this.txtDate = (TextView) itemView.findViewById(R.id.txt_date);
 
             itemView.setOnClickListener(this);

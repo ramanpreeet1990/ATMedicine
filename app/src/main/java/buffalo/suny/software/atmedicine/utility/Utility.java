@@ -8,6 +8,9 @@ import android.net.NetworkInfo;
 import android.support.v4.content.ContextCompat;
 import android.text.TextUtils;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+
 public class Utility {
 
     public static boolean isNetworkAvailable(final Context context) {
@@ -33,7 +36,28 @@ public class Utility {
     }
 
     public static boolean checkPermission(Context mContext) {
-        return (mContext!= null && ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
+        return (mContext != null && ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED
                 && ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED);
+    }
+
+    public static String generateMD5(String str) {
+        try {
+            // Create MD5 Hash
+            MessageDigest digest = java.security.MessageDigest.getInstance("MD5");
+            digest.update(str.getBytes());
+            byte messageDigest[] = digest.digest();
+
+            // Create Hex String
+            StringBuffer hexString = new StringBuffer();
+
+            for (int i = 0; i < messageDigest.length; i++)
+                hexString.append(Integer.toHexString(0xFF & messageDigest[i]));
+
+            return hexString.toString();
+
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+            return "";
+        }
     }
 }

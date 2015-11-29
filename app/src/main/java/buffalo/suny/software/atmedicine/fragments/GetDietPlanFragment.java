@@ -190,7 +190,7 @@ public class GetDietPlanFragment extends Fragment implements View.OnClickListene
     private void loadUserWeight() {
         weightLbs = user.getWeightLbs();
         if (weightLbs <= 0) {
-            weightLbs = Globals.DEFAULT_WEIGHT;
+            weightLbs = Globals.DEFAULT_WEIGHT_LBS;
         }
 
         pickerWeight.setMinValue(3);

@@ -16,6 +16,7 @@ import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -25,6 +26,8 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.google.android.gms.auth.GoogleAuthUtil;
+
+import java.security.MessageDigest;
 
 import buffalo.suny.software.atmedicine.R;
 import buffalo.suny.software.atmedicine.database.DatabaseConnection;
@@ -40,7 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private EditText txtInputEmail, txtInputPassword;
     private Button btnLogin;
 
-    private String userEmailId = "", userPassword = "";
+    private String userEmailId, userPassword;
 
     private User user;
     private DatabaseConnection dbConn;
@@ -59,7 +62,6 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startApp(userEmailId);
         }
 
-        dbConn = DatabaseConnection.getInstance();
         res = getResources();
 
         customTypeface = Typeface.createFromAsset(getAssets(), Globals.FONT_ROBOTO_THIN);
@@ -133,6 +135,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private void submitLoginForm() {
+        userEmailId = txtInputEmail.getText().toString().trim();
+        userPassword = txtInputPassword.getText().toString().trim();
+
         if (!validateEmail(userEmailId)) {
             return;
         }
@@ -150,34 +155,38 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         runLoginTask();
     }
 
-    private Boolean success = false;
+    private int uniqueUserId = -1;
     private void runLoginTask() {
-        AsyncTask<String, Boolean, Boolean> mLoginTask;
+        AsyncTask<String, Integer, Integer> mLoginTask;
 
-        mLoginTask = new AsyncTask<String, Boolean, Boolean>() {
+        mLoginTask = new AsyncTask<String, Integer, Integer>() {
             @Override
             protected void onPreExecute() {
+                dbConn = DatabaseConnection.getInstance();
                 launchRingDialog("Logging in...");
             }
 
             @Override
-            protected Boolean doInBackground(String... params) {
+            protected Integer doInBackground(String... params) {
                 try {
-                    success = dbConn.isRegisteredUser(userEmailId, userPassword);
+                    uniqueUserId = dbConn.isRegisteredUser(userEmailId, Utility.generateMD5(userPassword));
                 } catch (Exception e) {
-                    success = false;
                     e.printStackTrace();
                 }
 
-                return success;
+                return uniqueUserId;
             }
 
             @Override
-            protected void onPostExecute(Boolean success) {
-                super.onPostExecute(success);
+            protected void onPostExecute(Integer uniqueUserId) {
+                super.onPostExecute(uniqueUserId);
                 dismissProgressDialog();
-                if (success) {
+
+                Log.v(Globals.TAG, "uniqueUserId : " + uniqueUserId);
+
+                if (uniqueUserId >= 0) {
                     user.setEmailId(userEmailId);
+                    user.setUserId(uniqueUserId);
                     startApp(userEmailId);
                 } else {
                     showErrorDialog(res.getString(R.string.login_error_title), res.getString(R.string.login_error_msg));
@@ -203,7 +212,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         errorDialog.setCancelable(false);
         errorDialog.show();
 
-        Button btnOK = (Button) errorDialog.findViewById(R.id.btn_close);
+        Button btnOK = (Button) errorDialog.findViewById(R.id.btn_ok);
         TextView dialogTitle = (TextView) errorDialog.findViewById(R.id.dialog_toolbar_title);
         TextView dialogMessage = (TextView) errorDialog.findViewById(R.id.dialog_msg);
 
@@ -222,9 +231,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private boolean validateEmail(String userEmailId) {
-        if (userEmailId.isEmpty() || !Utility.isValidEmail(userEmailId)) {
+        if (null == userEmailId || userEmailId.isEmpty() || !Utility.isValidEmail(userEmailId)) {
             inputLayoutEmail.setError(getString(R.string.err_msg_email));
-            requestFocus(txtInputEmail);
+            showSoftKeyboard(txtInputEmail);
             return false;
         } else {
             inputLayoutEmail.setError(null);
@@ -235,9 +244,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     private boolean validatePassword(String userPassword) {
-        if (userPassword.isEmpty()) {
+        if (null == userPassword || userPassword.isEmpty()) {
             inputLayoutPassword.setError(getString(R.string.err_msg_password));
-            requestFocus(txtInputPassword);
+            showSoftKeyboard(txtInputPassword);
             return false;
         } else {
             inputLayoutPassword.setError(null);
@@ -254,10 +263,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         }
     }
 
-    private void requestFocus(View view) {
-        if (view.requestFocus()) {
-            getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
-        }
+    public void showSoftKeyboard(View view) {
+        InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
+        view.requestFocus();
+        inputMethodManager.showSoftInput(view, 0);
     }
 
     private class LoginFormTextWatcher implements TextWatcher {

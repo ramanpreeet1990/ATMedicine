@@ -91,12 +91,12 @@ public class LocateHealthcareCentreFragment extends Fragment implements View.OnC
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_LOW);
         criteria.setCostAllowed(true);
-        criteria.setSpeedRequired(true);
-        criteria.setAltitudeRequired(false);
-        criteria.setBearingRequired(false);
+//        criteria.setSpeedRequired(true);
+        //       criteria.setAltitudeRequired(false);
+        //       criteria.setBearingRequired(false);
         criteria.setPowerRequirement(Criteria.POWER_HIGH);
 
-        String provider = locationManager.getBestProvider(criteria, true);
+        String provider = locationManager.getBestProvider(criteria, false);
 
         if (Utility.checkPermission(getActivity())) {
             location = locationManager.getLastKnownLocation(provider);
@@ -108,7 +108,8 @@ public class LocateHealthcareCentreFragment extends Fragment implements View.OnC
             showEnableGpsDialog();
         }
 
-        locationManager.requestLocationUpdates(provider, 5000, 5, locationListener);
+        Log.v(Globals.TAG, "provider : " + provider);
+        locationManager.requestLocationUpdates(provider, 0, 0, locationListener);
     }
 
     private void showEnableGpsDialog() {
@@ -116,10 +117,10 @@ public class LocateHealthcareCentreFragment extends Fragment implements View.OnC
         errorDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
         errorDialog.getWindow().setBackgroundDrawable(new ColorDrawable(Color.WHITE));
         errorDialog.setContentView(R.layout.dialog_error);
-        errorDialog.setCancelable(false);
+        errorDialog.setCancelable(true);
         errorDialog.show();
 
-        Button btnOK = (Button) errorDialog.findViewById(R.id.btn_close);
+        Button btnOK = (Button) errorDialog.findViewById(R.id.btn_ok);
         TextView dialogTitle = (TextView) errorDialog.findViewById(R.id.dialog_toolbar_title);
         TextView dialogMessage = (TextView) errorDialog.findViewById(R.id.dialog_msg);
 
@@ -141,9 +142,9 @@ public class LocateHealthcareCentreFragment extends Fragment implements View.OnC
 
     private void loadInsuranceProviders() {
         List<String> insuranceProvider = new ArrayList<String>();
-        insuranceProvider.add("HTC Worldwide");
-        insuranceProvider.add("BlueCross BlueShield");
-        insuranceProvider.add("Walsh Duffield");
+        insuranceProvider.add("HTH WORLDWIDE INSURANCE SERVICES");
+        insuranceProvider.add("BLUE CROSS BLUE SHIELD");
+        insuranceProvider.add("INDEPENDENT HEALTH");
 
         insuranceProviderAdapter = new ArrayAdapter<String>(getActivity().getBaseContext(), android.R.layout.simple_spinner_item, insuranceProvider);
         insuranceProviderAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -187,18 +188,19 @@ public class LocateHealthcareCentreFragment extends Fragment implements View.OnC
         public void onLocationChanged(Location location) {
             Log.v(Globals.TAG, "latitude : " + location.getLatitude() + ", longitude : " + location.getLongitude());
 
-            dismissProgressDialog();
-
             user.setLatitude(location.getLatitude());
             user.setLongitude(location.getLongitude());
+
+            //user.setLatitude(43.000904);
+            //user.setLongitude(-78.789567);
+            user.setInsuranceProvider(spinnerInsuranceProviders.getSelectedItem().toString());
 
             if (Utility.checkPermission(getActivity()))
                 locationManager.removeUpdates(locationListener);
 
-            if (dbConn.fetchHealthcareCentres(spinnerInsuranceProviders.getSelectedItem().toString(), user.getLatitude(), user.getLongitude())) {
-                Intent intent = new Intent(getActivity(), HealthcareCentreActivity.class);
-                startActivity(intent);
-            }
+            dismissProgressDialog();
+            Intent intent = new Intent(getActivity(), HealthcareCentreActivity.class);
+            startActivity(intent);
 
         }
 

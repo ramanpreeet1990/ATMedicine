@@ -1,33 +1,30 @@
 package buffalo.suny.software.atmedicine.activities;
 
-import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 import buffalo.suny.software.atmedicine.R;
 import buffalo.suny.software.atmedicine.adapter.GridHealthcareCentresAdapter;
 import buffalo.suny.software.atmedicine.database.DatabaseConnection;
 import buffalo.suny.software.atmedicine.model.HealthcareCentre;
+import buffalo.suny.software.atmedicine.model.User;
 import buffalo.suny.software.atmedicine.utility.Globals;
 
 
@@ -40,6 +37,8 @@ public class HealthcareCentreActivity extends AppCompatActivity {
     private HealthcareCentre[] mHealthcareCentre;
 
     private Context mContext;
+    private ProgressDialog ringProgressDialog;
+    private DatabaseConnection dbConn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,54 +61,87 @@ public class HealthcareCentreActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
 
-        fetchHealthcareCentresFromDB();
-        drawHealthCareCentresGrids();
+        fetchHealthcareCentresTask();
     }
 
-    private void fetchHealthcareCentresFromDB() {
-        int healthcareCount = 6;
-        mHealthcareCentre = new HealthcareCentre[healthcareCount];
+    private void fetchHealthcareCentresTask() {
+        AsyncTask<String, ArrayList<ArrayList<String>>, ArrayList<ArrayList<String>>> mFetchHealthcareCentresTask;
+        mFetchHealthcareCentresTask = new AsyncTask<String, ArrayList<ArrayList<String>>, ArrayList<ArrayList<String>>>() {
+            @Override
+            protected void onPreExecute() {
+                dbConn = DatabaseConnection.getInstance();
+                launchRingDialog("Loading Data...");
+            }
 
-        mHealthcareCentre[0] = new HealthcareCentre();
-        mHealthcareCentre[0].setName("Student Health Centre");
-        mHealthcareCentre[0].setAddress("2668 Tonawada Street\nBuffalo NY-14214");
-        mHealthcareCentre[0].setPhoneNumber("Ph : (716) 848 1132");
-        mHealthcareCentre[0].setLatitude(42.9008912);
-        mHealthcareCentre[0].setLongitude(-78.8655908);
+            @Override
+            protected ArrayList<ArrayList<String>> doInBackground(String... params) {
+                ArrayList<ArrayList<String>> healthcareCentresList = new ArrayList<>();
+
+                try {
+                    healthcareCentresList = dbConn.fetchHealthcareCentres(User.getCurrentUser().getUserId(), User.getCurrentUser().getInsuranceProvider(), User.getCurrentUser().getLatitude(), User.getCurrentUser().getLongitude());
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+                return healthcareCentresList;
+            }
+
+            @Override
+            protected void onPostExecute(ArrayList<ArrayList<String>> healthcareCentresList) {
+                super.onPostExecute(healthcareCentresList);
+                dismissProgressDialog();
+
+                drawHealthCareCentresGrids(healthcareCentresList);
+            }
+
+            @Override
+            protected void onCancelled() {
+                dismissProgressDialog();
+
+            }
+        };
+        mFetchHealthcareCentresTask.execute();
+    }
+
+    private void launchRingDialog(String displayMessage) {
+        ringProgressDialog = ProgressDialog.show(this, "Please wait ...", displayMessage, true);
+        ringProgressDialog.setIndeterminate(true);
+        ringProgressDialog.setCancelable(false);
+    }
+
+    public void dismissProgressDialog() {
+        if (ringProgressDialog != null && ringProgressDialog.isShowing()) {
+            ringProgressDialog.dismiss();
+        }
+    }
 
 
-        mHealthcareCentre[1] = new HealthcareCentre();
-        mHealthcareCentre[1].setName("HTH Medical Care");
-        mHealthcareCentre[1].setAddress("1440 Niagara Blvd Road\nBuffalo NY-14214");
-        mHealthcareCentre[1].setPhoneNumber("Ph : (716) 801 1010");
-
-        mHealthcareCentre[2] = new HealthcareCentre();
-        mHealthcareCentre[2].setName("Student Health Centre");
-        mHealthcareCentre[2].setAddress("2668 Tonawada Street\nBuffalo NY-14214");
-        mHealthcareCentre[2].setPhoneNumber("Ph : (716) 848 1132");
-
-        mHealthcareCentre[3] = new HealthcareCentre();
-        mHealthcareCentre[3].setName("HTH Medical Care");
-        mHealthcareCentre[3].setAddress("1440 Niagara Blvd Road\nBuffalo NY-14214");
-        mHealthcareCentre[3].setPhoneNumber("Ph : (716) 801 1010");
-
-        mHealthcareCentre[4] = new HealthcareCentre();
-        mHealthcareCentre[4].setName("Student Health Centre");
-        mHealthcareCentre[4].setAddress("2668 Tonawada Street\nBuffalo NY-14214");
-        mHealthcareCentre[4].setPhoneNumber("Ph : (716) 848 1132");
-
-        mHealthcareCentre[5] = new HealthcareCentre();
-        mHealthcareCentre[5].setName("HTH Medical Care");
-        mHealthcareCentre[5].setAddress("1440 Niagara Blvd Road\nBuffalo NY-14214");
-        mHealthcareCentre[5].setPhoneNumber("Ph : (716) 801 1010");
+    public void drawHealthCareCentresGrids(ArrayList<ArrayList<String>> healthcareCentresList) {
+        int healthcareCount = healthcareCentresList.size();
 
         Resources res = getResources();
         String text = res.getQuantityString(R.plurals.txt_count_healthcare_centres,
                 healthcareCount, healthcareCount);
         txtHealthcareCount.setText(text);
-    }
 
-    public void drawHealthCareCentresGrids() {
+        mHealthcareCentre = new HealthcareCentre[healthcareCount];
+
+        int counter = 0;
+        while (counter < healthcareCount) {
+            mHealthcareCentre[counter] = new HealthcareCentre();
+            mHealthcareCentre[counter].setName(healthcareCentresList.get(counter).get(0));
+            mHealthcareCentre[counter].setAddress(healthcareCentresList.get(counter).get(1));
+            mHealthcareCentre[counter].setPhoneNumber(healthcareCentresList.get(counter).get(2));
+            mHealthcareCentre[counter].setEmailId(healthcareCentresList.get(counter).get(3));
+            mHealthcareCentre[counter].setLatitude(Double.valueOf(healthcareCentresList.get(counter).get(4)));
+            mHealthcareCentre[counter].setLongitude(Double.valueOf(healthcareCentresList.get(counter).get(5)));
+            mHealthcareCentre[counter].setDistanceFromUser(Double.valueOf(healthcareCentresList.get(counter).get(6)));
+
+            ++counter;
+        }
+
+
         healthcareCentresGridAdapter = new GridHealthcareCentresAdapter(mHealthcareCentre);
 
         recyclerHealthcareCentreView.setLayoutManager(new GridLayoutManager(this, 1));
@@ -131,8 +163,8 @@ public class HealthcareCentreActivity extends AppCompatActivity {
                     startActivity(intent);
                 } catch (ActivityNotFoundException ex) {
                     try {
-                        Intent unrestrictedIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
-                        startActivity(unrestrictedIntent);
+                        Intent directionIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(uri));
+                        startActivity(directionIntent);
                     } catch (ActivityNotFoundException innerEx) {
                         Toast.makeText(mContext, "Please install a maps application", Toast.LENGTH_LONG).show();
                     }

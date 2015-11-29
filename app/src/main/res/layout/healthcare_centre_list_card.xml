@@ -22,9 +22,11 @@
 
         <TextView
             android:id="@+id/txt_name"
-            android:layout_width="wrap_content"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:text="Student Health Centre"
+            android:singleLine="false"
+            android:layout_toStartOf="@+id/img_driving_direction"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/primary_dark"
             android:textStyle="bold" />
@@ -53,26 +55,37 @@
             android:textColor="@color/primary_dark" />
 
         <TextView
-            android:id="@+id/txt_direction"
-            android:layout_width="wrap_content"
+            android:id="@+id/txt_email"
+            android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignTop="@id/txt_name"
-            android:layout_marginRight="0dip"
-            android:text="@string/txt_driving_direction"
+            android:layout_below="@id/txt_phone"
+            android:layout_marginTop="1dip"
+            android:layout_toStartOf="@+id/img_driving_direction"
+            android:text="hth@health.com"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textColor="@color/primary_dark" />
 
+
         <ImageView
             android:id="@+id/img_driving_direction"
-            android:layout_width="30dp"
-            android:layout_height="60dp"
-            android:layout_alignStart="@+id/txt_direction"
-            android:layout_below="@+id/txt_direction"
-            android:layout_marginEnd="25dp"
-            android:layout_marginStart="30dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentRight="true"
+            android:layout_marginRight="10dp"
             android:scaleType="fitCenter"
-            android:src="@drawable/ic_location" />
+            android:background="@drawable/ic_location" />
 
+        <TextView
+            android:id="@+id/txt_distance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_below="@id/img_driving_direction"
+            android:layout_marginRight="5dip"
+            android:text="5.35 Km"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/primary_dark" />
     </RelativeLayout>
 </android.support.v7.widget.CardView>

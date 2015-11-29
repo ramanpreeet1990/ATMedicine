@@ -1,7 +1,7 @@
 package buffalo.suny.software.atmedicine.model;
 
 public class MedicalHistory {
-    private String symptom, lastHappen, date;
+    private String symptom, bodyPart, date;
 
     public MedicalHistory() {
 
@@ -9,7 +9,7 @@ public class MedicalHistory {
 
     public MedicalHistory(String symptom, String lastHappen, String date) {
         this.symptom = symptom;
-        this.lastHappen = lastHappen;
+        this.bodyPart = lastHappen;
         this.date = date;
     }
 
@@ -17,8 +17,8 @@ public class MedicalHistory {
         return symptom;
     }
 
-    public String getLastHappen() {
-        return lastHappen;
+    public String getBodyPart() {
+        return bodyPart;
     }
 
     public String getDate() {
@@ -29,8 +29,8 @@ public class MedicalHistory {
         this.symptom = symptom;
     }
 
-    public void setLastHappen(String lastHappen) {
-        this.lastHappen = lastHappen;
+    public void setBodyPart(String lastHappen) {
+        this.bodyPart = lastHappen;
     }
 
     public void setDate(String date) {
