@@ -11,42 +11,40 @@
 -> In case of an emergency the application should also locate healthcare centres closest to user’s location covered under his/her health insurance.
 
 
-### Lets create an account with ATM with a single click
+#### Lets create an account with ATM with a single click
 ![UI0] (https://cloud.githubusercontent.com/assets/11690982/11456751/f3df2380-9660-11e5-9c13-a76736b34807.jpg)
 ![UI1] (https://cloud.githubusercontent.com/assets/11690982/11456752/f3e8ebea-9660-11e5-915d-376463d0bc78.jpg)
 
-### We have a simple and elegant design
+
+#### We have a simple and elegant design
 ![UI2] (https://cloud.githubusercontent.com/assets/11690982/11456749/f3dc6c62-9660-11e5-92c7-fc7ab42f143f.jpg)
 
 
-### Have any health concern ? We have solution to all your problems
+#### Have any health concern ? We have solution to all your problems. Apart from OTC (Over The Counter) medicines, we suggest Home Remedies also because we care for your health
 ![UI3] (https://cloud.githubusercontent.com/assets/11690982/11456748/f3daa7a6-9660-11e5-9cd5-557637581a54.jpg)
-
-
-### Apart from OTC (Over The Counter) medicines, we suggest Home Remedies also because we care for your health
 ![UI4] (https://cloud.githubusercontent.com/assets/11690982/11456746/f3d9c0c0-9660-11e5-8fad-02d460ad1229.jpg)
 
 
-### When next time you have to visit your doctor you don't need to recall your medical history. We'll do it for you
+#### When next time you have to visit your doctor you don't need to recall your medical history. We'll do it for you
 ![UI5] (https://cloud.githubusercontent.com/assets/11690982/11456742/f3ce4ccc-9660-11e5-95ad-018d682ebfd1.jpg)
 
 
-### Do you feel that your current diet plan is not favouring your health ? Just let us know, we have tailred diet plans just for you
+#### Do you feel that your current diet plan is not favouring your health ? Just let us know, we have tailred diet plans just for you
 ![UI6] (https://cloud.githubusercontent.com/assets/11690982/11456747/f3d9c12e-9660-11e5-8f21-9c0d8049fcb6.jpg)
 ![UI7] (https://cloud.githubusercontent.com/assets/11690982/11456744/f3d0ac60-9660-11e5-9ed2-87f458e5671e.jpg)
 
 
-### Keep updating your profile so that we can serve you better
+#### Keep updating your profile so that we can serve you better
 ![UI7] (https://cloud.githubusercontent.com/assets/11690982/11456743/f3ce70ee-9660-11e5-8a4d-e4274f534e49.jpg)
 
 
-### Do you find it difficult to search healthcare centres which accepts your Medical Insurance ? Don't worry we'll search and locate them for you
+#### Do you find it difficult to search healthcare centres which accepts your Medical Insurance ? Don't worry we'll search and locate them for you
 ![UI8] (https://cloud.githubusercontent.com/assets/11690982/11456745/f3d12a5a-9660-11e5-8829-21bca14c763c.jpg)
 ![UI9] (https://cloud.githubusercontent.com/assets/11690982/11456741/f3cde2fa-9660-11e5-8990-6fccd784e626.jpg)
 ![UI10] (https://cloud.githubusercontent.com/assets/11690982/11456740/f3cbf42c-9660-11e5-9505-5bfff9c5bf3b.jpg)
 
 
-### Forgot your Password ? Donn't worry we'll provide you a new one
+#### Forgot your Password ? Donn't worry we'll provide you a new one
 ![UI11] (https://cloud.githubusercontent.com/assets/11690982/11456750/f3dca452-9660-11e5-8d03-0f56c99a4aa8.jpg)
 ![UI12] (https://cloud.githubusercontent.com/assets/11690982/11456739/f3c3dfee-9660-11e5-942c-963371c2fb34.jpg)
 
