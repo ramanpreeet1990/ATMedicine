@@ -29,12 +29,7 @@ import buffalo.suny.software.atmedicine.utility.Globals;
 public class ViewHistoryActivity extends AppCompatActivity {
     private Typeface customTypeface, customBold;
     private TextView txtLogoViewHistoryHistory;
-    private Button btnLocateHealthCare;
     private DatabaseConnection dbConn;
-    private Spinner spinnerInsuranceProviders;
-    private ArrayAdapter<String> insuranceProviderAdapter;
-    private double latitude, longitude;
-    private User user;
     private RelativeLayout recyclerMedicalHistoryLayout;
     private ProgressDialog ringProgressDialog;
     private RecyclerView recyclerMedicalHistoryView;
@@ -47,7 +42,6 @@ public class ViewHistoryActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_history);
 
         dbConn = DatabaseConnection.getInstance();
-        user = User.getCurrentUser();
 
         customTypeface = Typeface.createFromAsset(getAssets(), Globals.FONT_ROBOTO_THIN);
         customBold = Typeface.create(customTypeface, Typeface.BOLD);

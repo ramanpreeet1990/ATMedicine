@@ -77,7 +77,7 @@
             android:layout_marginBottom="24dp"
             android:gravity="center"
             android:text="@string/link_forgot_password"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="16dip" />
 
         <TextView
@@ -87,7 +87,7 @@
             android:layout_marginBottom="24dp"
             android:gravity="center"
             android:text="@string/link_create_account"
-            android:textColor="@color/text_color"
+            android:textColor="@color/white"
             android:textSize="16dip" />
     </LinearLayout>
 
