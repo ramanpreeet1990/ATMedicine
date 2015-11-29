@@ -1,0 +1,25 @@
+Procedure Description:
+
+PROC_INS_HEALTH_INSERT:
+1) Checks if Body Part is already present in ATM_BODY_TB. If not, an insert is fired.
+2) Checks if Symptom is already present in ATM_SYMPTOM_TB. If not, an insert is fired.
+3) Checks if Home Remedies are already present in ATM_HOME_REMEDY_TB. If not, insert(s) is/are fired for those home remedies not present in ATM_HOME_REMEDY_TB.
+4) Checks if OTC Medicines are already present in ATM_OTC_TB. If not, insert(s) is/are fired for those home remedies not present in ATM_OTC_TB.
+5) Upsert is performed for ATM_REMEDY_TB.
+Note: 
+a) ATM_REMEDY_TB - Insert/Update possible based/keyed on Body Part and Symptom.
+b) ATM_BODY_TB/ATM_SYMPTOM_TB/ATM_HOME_REMEDY_TB/ATM_OTC_TB - Insert if the record doesnt exist in that table or do nothing((ignore) if record already exists. Updates are not supported via procedure on any of these tables. An update is treated as a new record.
+
+
+
+
+
+
+PROC_INS_HEALTH_INSERT:
+1) Checks if Insurance Provider is already present in ATM_INSURANCE_PROVIDER_TB. If not, an insert is fired.
+2) Healthcare Center is inserted in ATM_HEALTHCARE_CENTER_TB.
+3) Relationship between Insurance Provider and Healthcare Center is inserted in ATM_INS_PRO_HEALTH_CEN_JOIN_TB.
+Note: 
+a) ATM_INSURANCE_PROVIDER_TB - Insert if the record doesnt exist in that table or do nothing((ignore) if record already exists.
+b) ATM_HEALTHCARE_CENTER_TB/ATM_INS_PRO_HEALTH_CEN_JOIN_TB - Always insert records even if they are duplicate.
+Updates are not supported via procedure on any of the 3 tables.
