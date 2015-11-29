@@ -12,43 +12,43 @@
 
 
 ### Lets create an account with ATM with a single click
-![UI1] (https://cloud.githubusercontent.com/assets/11690982/11456530/f0e82fd4-9659-11e5-80bb-aed612d6ef62.jpg)
-
+![UI0] (https://cloud.githubusercontent.com/assets/11690982/11456660/eceb36fc-965d-11e5-80fc-a201978c4900.jpg)
+![UI1] (https://cloud.githubusercontent.com/assets/11690982/11456704/2e88394c-965f-11e5-8793-80400df72b40.jpg)
 
 ### We have a simple and elegant design
-![UI2] (https://cloud.githubusercontent.com/assets/11690982/11456528/f0e6803a-9659-11e5-98fb-7fc978041995.jpg)
+![UI2] (https://cloud.githubusercontent.com/assets/11690982/11456657/ece19ac0-965d-11e5-95de-9b66004bbb4f.jpg)
 
 
 ### Have any health concern ? We have solution to all your problems
-![UI3] (https://cloud.githubusercontent.com/assets/11690982/11456533/f0ea9076-9659-11e5-9f44-bc09e7cb7980.jpg)
+![UI3] (https://cloud.githubusercontent.com/assets/11690982/11456656/ece0c8f2-965d-11e5-8d66-428cad264c3b.jpg)
 
 
 ### Apart from OTC (Over The Counter) medicines, we suggest Home Remedies also because we care for your health
-![UI4] (https://cloud.githubusercontent.com/assets/11690982/11456535/f0f29514-9659-11e5-982d-90e9bcf94a77.jpg)
+![UI4] (https://cloud.githubusercontent.com/assets/11690982/11456658/ece2da5c-965d-11e5-8742-b196e5fab472.jpg)
 
 
 ### When next time you have to visit your doctor you don't need to recall your medical history. We'll do it for you
-![UI5] (https://cloud.githubusercontent.com/assets/11690982/11456541/f0fe0160-9659-11e5-8201-6e05f779f6be.jpg)
+![UI5] (https://cloud.githubusercontent.com/assets/11690982/11456649/ecd31ee6-965d-11e5-905d-1712993833b9.jpg)
 
 
 ### Do you feel that your current diet plan is not favouring your health ? Just let us know, we have tailred diet plans just for you
-![UI6] (https://cloud.githubusercontent.com/assets/11690982/11456531/f0ea3ef0-9659-11e5-89a6-adb6ed9cabbb.jpg)
-
-![UI7] (https://cloud.githubusercontent.com/assets/11690982/11456534/f0f0e796-9659-11e5-962d-4246d5a67ade.jpg)
+![UI6] (https://cloud.githubusercontent.com/assets/11690982/11456655/ece0a890-965d-11e5-858c-452939ec02f7.jpg)
+![UI7] (https://cloud.githubusercontent.com/assets/11690982/11456654/ecde7070-965d-11e5-810f-27f089083219.jpg)
 
 
 ### Keep updating your profile so that we can serve you better
-![UI7] (https://cloud.githubusercontent.com/assets/11690982/11456536/f0f79618-9659-11e5-887f-9e8031307d44.jpg)
+![UI7] (https://cloud.githubusercontent.com/assets/11690982/11456651/ecd3ad66-965d-11e5-81f1-f3f63f801764.jpg)
 
 
-### Do you find it difficult to search healthcare centres which accepts your insurance ? Don't worry we'll search them for you 
-![UI8] (https://cloud.githubusercontent.com/assets/11690982/11456537/f0f767ce-9659-11e5-86d7-417d4fbc9510.jpg)
-
-![UI9] (https://cloud.githubusercontent.com/assets/11690982/11456538/f0f7b3dc-9659-11e5-91d8-65af591e14f3.jpg)
-
-![UI10] (https://cloud.githubusercontent.com/assets/11690982/11456529/f0e77f1c-9659-11e5-820f-64a361e58ee3.jpg)
+### Do you find it difficult to search healthcare centres which accepts your insurance ? Don't worry we'll search and locate them for you
+![UI8] (https://cloud.githubusercontent.com/assets/11690982/11456653/ecdcd652-965d-11e5-8de6-b7cc5c271eb9.jpg)
+![UI9] (https://cloud.githubusercontent.com/assets/11690982/11456650/ecd37760-965d-11e5-8c68-5cd2c333349a.jpg)
+![UI10] (https://cloud.githubusercontent.com/assets/11690982/11456647/ecd0760a-965d-11e5-81a0-7248a9003715.jpg)
 
 
+### Forgot your Password ? Donn't worry we'll provide you a new one
+![UI11] (https://cloud.githubusercontent.com/assets/11690982/11456659/ecea0944-965d-11e5-8276-cfcef490b91b.jpg)
+![UI12] (https://cloud.githubusercontent.com/assets/11690982/11456648/ecd0e66c-965d-11e5-91e6-c99be4bde81a.jpg)
 -------------------------------------------------------------------------------------------------------------------
 #####<p align="center">Contributors</p>
 
