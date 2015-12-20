@@ -1,0 +1,203 @@
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/primary"
+    android:fitsSystemWindows="true">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/primary">
+
+        <TextView
+            android:id="@+id/txt_home_remedy_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/dialog_toolbar"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/txt_home_remedy_title"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/img_home_remedy"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/txt_home_remedy_title"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/home_remedy"
+            android:scaleType="fitCenter" />
+
+        <LinearLayout
+            android:id="@+id/home_remedy_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_home_remedy_title"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/img_home_remedy"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_home_remedy_1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="Take Honey"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/txt_home_remedy_2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="Drink lot of water"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/white" />
+
+
+            <TextView
+                android:id="@+id/txt_home_remedy_3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="Listen to music"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <View
+            android:id="@+id/toolbar_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="2dp"
+            android:layout_below="@+id/home_remedy_details"
+            android:layout_margin="20dp"
+            android:background="@drawable/toolbar_shadow"
+            android:backgroundTint="@color/white" />
+
+        <TextView
+            android:id="@+id/txt_otc_remedy_title"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/toolbar_shadow"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:padding="10dp"
+            android:text="@string/txt_otc_remedy_title"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@color/white" />
+
+        <ImageView
+            android:id="@+id/img_otc_remedy"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_below="@+id/txt_otc_remedy_title"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/otc_medicine"
+            android:scaleType="fitCenter" />
+
+        <LinearLayout
+            android:id="@+id/otc_remedy_details"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_otc_remedy_title"
+            android:layout_margin="10dp"
+            android:layout_toRightOf="@id/img_otc_remedy"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/txt_otc_remedy_1"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="Paracetamol"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/white" />
+
+            <TextView
+                android:id="@+id/txt_otc_remedy_2"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="Crocin"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/white" />
+
+
+            <TextView
+                android:id="@+id/txt_otc_remedy_3"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="left"
+                android:padding="10dp"
+                android:text="Pain Reliever"
+                android:textAppearance="?android:attr/textAppearanceSmall"
+                android:textColor="@color/white" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/txt_disclaimer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/otc_remedy_details"
+            android:layout_gravity="center_horizontal"
+            android:gravity="left"
+            android:layout_marginTop="20dp"
+            android:padding="10dp"
+            android:text="@string/txt_disclaimer"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/txt_remedy_disclaimer"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_disclaimer"
+            android:layout_gravity="center_horizontal"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="@string/remedy_disclaimer"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/white" />
+
+        <TextView
+            android:id="@+id/txt_disclaimer_emergency"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/txt_remedy_disclaimer"
+            android:layout_gravity="center_horizontal"
+            android:gravity="left"
+            android:padding="10dp"
+            android:text="@string/emergency_disclaimer"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/white" />
+
+        <android.support.v7.widget.AppCompatButton
+            android:id="@+id/btn_close"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@+id/txt_disclaimer_emergency"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="10dp"
+            android:background="@color/primary_dark"
+            android:padding="12dp"
+            android:text="@string/txt_close"
+            android:textColor="@android:color/white" />
+    </RelativeLayout>
+</ScrollView>

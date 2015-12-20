@@ -1,0 +1,5 @@
+Release note: 
+Initial release:  
+The application performs all the functionality that was mentioned as success criteria in the Software Requirements Specification. 
+Only NON-CRITICAL functionality such as update password, change password and update profile is not implemented. 
+These features would be implemented before the final review.
