@@ -30,7 +30,7 @@
 <p align="center"> ![UI5] (https://cloud.githubusercontent.com/assets/11690982/11456742/f3ce4ccc-9660-11e5-95ad-018d682ebfd1.jpg)
 
 
-#### Do you feel that your current diet plan is not favouring your health ? Just let us know, we have tailred diet plans just for you
+#### Do you feel that your current diet plan is not favouring your health ? Just let us know, we have tailored diet plans just for you
 <p align="center"> ![UI6] (https://cloud.githubusercontent.com/assets/11690982/11456747/f3d9c12e-9660-11e5-8f21-9c0d8049fcb6.jpg) 
 
 
