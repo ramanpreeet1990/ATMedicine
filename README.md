@@ -20,27 +20,28 @@
 
 
 #### Have any health concern ? We have solution to all your problems. Apart from OTC (Over The Counter) medicines, we suggest Home Remedies also because we care for your health
-<p align="center">![UI3](https://cloud.githubusercontent.com/assets/11690982/11456748/f3daa7a6-9660-11e5-9cd5-557637581a54.jpg) ![UI4](https://cloud.githubusercontent.com/assets/11690982/11456746/f3d9c0c0-9660-11e5-8fad-02d460ad1229.jpg)
+<p align="center">![UI3] (https://cloud.githubusercontent.com/assets/11690982/11456748/f3daa7a6-9660-11e5-9cd5-557637581a54.jpg)
+![UI4] (https://cloud.githubusercontent.com/assets/11690982/11456746/f3d9c0c0-9660-11e5-8fad-02d460ad1229.jpg)
 
 
 #### When next time you have to visit your doctor you don't need to recall your medical history. We'll do it for you
-<p align="center">![UI5](https://cloud.githubusercontent.com/assets/11690982/11456742/f3ce4ccc-9660-11e5-95ad-018d682ebfd1.jpg)
+<p align="center">![UI5] (https://cloud.githubusercontent.com/assets/11690982/11456742/f3ce4ccc-9660-11e5-95ad-018d682ebfd1.jpg)
 
 
 #### Do you feel that your current diet plan is not favouring your health ? Just let us know, we have tailred diet plans just for you
-<p align="center">![UI6](https://cloud.githubusercontent.com/assets/11690982/11456747/f3d9c12e-9660-11e5-8f21-9c0d8049fcb6.jpg) ![UI7](https://cloud.githubusercontent.com/assets/11690982/11456744/f3d0ac60-9660-11e5-9ed2-87f458e5671e.jpg)
+<p align="center">![UI6] (https://cloud.githubusercontent.com/assets/11690982/11456747/f3d9c12e-9660-11e5-8f21-9c0d8049fcb6.jpg) ![UI7] (https://cloud.githubusercontent.com/assets/11690982/11456744/f3d0ac60-9660-11e5-9ed2-87f458e5671e.jpg)
 
 
 #### Keep updating your profile so that we can serve you better
-<p align="center">![UI7](https://cloud.githubusercontent.com/assets/11690982/11456743/f3ce70ee-9660-11e5-8a4d-e4274f534e49.jpg)
+<p align="center">![UI7] (https://cloud.githubusercontent.com/assets/11690982/11456743/f3ce70ee-9660-11e5-8a4d-e4274f534e49.jpg)
 
 
 #### Do you find it difficult to search healthcare centres which accepts your Medical Insurance ? Don't worry we'll search and locate them for you
-<p align="center">![UI8](https://cloud.githubusercontent.com/assets/11690982/11456745/f3d12a5a-9660-11e5-8829-21bca14c763c.jpg) ![UI9](https://cloud.githubusercontent.com/assets/11690982/11456741/f3cde2fa-9660-11e5-8990-6fccd784e626.jpg) ![UI10](https://cloud.githubusercontent.com/assets/11690982/11456740/f3cbf42c-9660-11e5-9505-5bfff9c5bf3b.jpg)
+<p align="center">![UI8] (https://cloud.githubusercontent.com/assets/11690982/11456745/f3d12a5a-9660-11e5-8829-21bca14c763c.jpg) ![UI9] (https://cloud.githubusercontent.com/assets/11690982/11456741/f3cde2fa-9660-11e5-8990-6fccd784e626.jpg) ![UI10] (https://cloud.githubusercontent.com/assets/11690982/11456740/f3cbf42c-9660-11e5-9505-5bfff9c5bf3b.jpg)
 
 
 #### Forgot your Password ? Donn't worry we'll provide you a new one
-<p align="center">![UI11](https://cloud.githubusercontent.com/assets/11690982/11456750/f3dca452-9660-11e5-8d03-0f56c99a4aa8.jpg) ![UI12](https://cloud.githubusercontent.com/assets/11690982/11456739/f3c3dfee-9660-11e5-942c-963371c2fb34.jpg)
+<p align="center">![UI11] (https://cloud.githubusercontent.com/assets/11690982/11456750/f3dca452-9660-11e5-8d03-0f56c99a4aa8.jpg) ![UI12] (https://cloud.githubusercontent.com/assets/11690982/11456739/f3c3dfee-9660-11e5-942c-963371c2fb34.jpg)
 
 
 Credits
@@ -50,8 +51,8 @@ Credits
  
 Contributors
 ------------------
-<p align="center"> Ramanpreet Singh Khinda (rkhinda@buffalo.edu)</br>
-<p align="center"> [![website](https://raw.githubusercontent.com/ramanpreet1990/CSE_586_Simplified_Amazon_Dynamo/master/Resources/ic_website.png)](https://branded.me/ramanpreet1990)		[![googleplay](https://raw.githubusercontent.com/ramanpreet1990/CSE_586_Simplified_Amazon_Dynamo/master/Resources/ic_google_play.png)](https://play.google.com/store/apps/details?id=suny.buffalo.mis.research&hl=en)		[![twitter](https://raw.githubusercontent.com/ramanpreet1990/CSE_586_Simplified_Amazon_Dynamo/master/Resources/ic_twitter.png)](https://twitter.com/dk_sunny1)		[![linkedin](https://raw.githubusercontent.com/ramanpreet1990/CSE_586_Simplified_Amazon_Dynamo/master/Resources/ic_linkedin.png)](https://www.linkedin.com/in/ramanpreet1990)
+Ramanpreet Singh Khinda (rkhinda@buffalo.edu)</br>
+[![website](https://raw.githubusercontent.com/ramanpreet1990/CSE_586_Simplified_Amazon_Dynamo/master/Resources/ic_website.png)](https://branded.me/ramanpreet1990)		[![googleplay](https://raw.githubusercontent.com/ramanpreet1990/CSE_586_Simplified_Amazon_Dynamo/master/Resources/ic_google_play.png)](https://play.google.com/store/apps/details?id=suny.buffalo.mis.research&hl=en)		[![twitter](https://raw.githubusercontent.com/ramanpreet1990/CSE_586_Simplified_Amazon_Dynamo/master/Resources/ic_twitter.png)](https://twitter.com/dk_sunny1)		[![linkedin](https://raw.githubusercontent.com/ramanpreet1990/CSE_586_Simplified_Amazon_Dynamo/master/Resources/ic_linkedin.png)](https://www.linkedin.com/in/ramanpreet1990)
 
 <p align="center">Varun Khandelwal</p>
 <p align="center">Sagar Dhamija</p>
