@@ -11,15 +11,15 @@
 -> In case of an emergency the application should also locate healthcare centres closest to user’s location covered under his/her health insurance.
 
 
-####Lets create an account with ATM with a single click
+#### Lets create an account with ATM with a single click
 <p align="center"> ![UI0] (https://cloud.githubusercontent.com/assets/11690982/11456751/f3df2380-9660-11e5-9c13-a76736b34807.jpg)
 
 
-####We have a simple and elegant design
+#### We have a simple and elegant design
 <p align="center"> ![UI2] (https://cloud.githubusercontent.com/assets/11690982/11456749/f3dc6c62-9660-11e5-92c7-fc7ab42f143f.jpg)
 
 
-#### Have any health concern ? We have solution to all your problems.
+#### Have any health concern ? We have solution to all your problems
 <p align="center"> ![UI3] (https://cloud.githubusercontent.com/assets/11690982/11456748/f3daa7a6-9660-11e5-9cd5-557637581a54.jpg)
 
 #### Apart from OTC (Over The Counter) medicines, we suggest Home Remedies also because we care for your health
