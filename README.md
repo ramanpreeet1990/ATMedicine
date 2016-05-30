@@ -1,4 +1,4 @@
-# <p align="center">ATM - AnyTimeMedicine<br/>a personal healthcare solution</br>CSE 542</p>
+# <p align="center">ATM - AnyTimeMedicine<br/>a personal healthcare solution</br>CSE 542 - Fall 2015</p>
 
 -> In today’s fast paced world - stress, headache, body aches, nausea, obesity, joint pains, anxiety, depression etc. are some of the many mundane health issues that everyone faces.
 
